@@ -1,0 +1,32 @@
+## Rendering
+To render with the Mitsuba template file:
+
+1. In the frames folder, run the script makeMitsubaFile.py with
+the text frame file
+
+python makeMitsubaFile.py cube-drop.txt
+
+This will create a file called cube-drop.xml, which describes the
+particle positions for Mitsuba.
+
+2. Run the mitsuba template file, telling it which particle file to use
+
+mitsuba -DpFile=cube-drop.xml -o cube-drop.png particleTemplate.xml
+
+You can do this for each frame, just replace cube-drop with the frame file name,
+then make them into a movie. You can use mtsgui instead of mitsuba while debugging
+to get an interactive viewer to adjust the camera etc.
+
+The particleTemplate.xml file currently renders the particles with a blue
+diffuse material. It is also possible to use a realistic water material
+(currently commented out in the xml file), but it may take some fiddling
+to get it to look good. You will need to tweak the camera position and view direction
+to make sure it includes the entire simulation. Also feel free to tweak the lighting,
+scene, materials, etc., to your heart's content.
+
+Mitsuba will be much slower than just dumping opengl frames. Using the default particleTemplate.xml
+file, it takes about 30 seconds to render one frame using 4 cores. You only need to render frames at
+whatever framerate you want for output, probably 30 fps. By default the particle code
+dumps frames at 100fps. On the flip side, if you have more time or access to
+more compute power, feel free to increase the number of samples for the path tracer,
+or render higher resolution images.
